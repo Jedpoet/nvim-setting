@@ -5,4 +5,5 @@ require('colorscheme')
 require('lsp')
 require('line')
 require('markdown')
+require('start')
 

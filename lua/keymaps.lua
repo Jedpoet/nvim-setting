@@ -66,11 +66,19 @@ local mar = {
 vim.api.nvim_create_autocmd("FileType",{
     pattern = "markdown",
     callback = function()
-        --vim.opt_local.formatoptions:append({ "r", "o", "n" }) -- 讓 `1.`、`-`、`>` 續行
         vim.keymap.set('n', "<leader>mp", "<cmd>MarkdownPreviewToggle<CR>", mar)
         vim.keymap.set('i', "$", "$ $<++><Esc>F$hi", mar)
         vim.keymap.set('i', "<,", "< ><++><Esc>F<hhi", mar)
         vim.keymap.set('i', ",t", "| <tt> | <++> |<CR>| ---- | ---- |<CR>| <++> | <++> |<Esc>/<tt><CR>:noh<CR>c4l", mar)
+        vim.keymap.set('i', ",l", "[<tt>](<++>)<++><Esc>/<tt><CR>:noh<CR>c4l", mar)
         vim.keymap.set('i', ",f", "<Esc>/<++><CR>:noh<CR>c4l", mar)
+        vim.keymap.set("i", "<CR>", function()
+            local line = vim.api.nvim_get_current_line()
+            local num, rest = line:match("^(%d+)%.(.*)")
+            if num then
+                return "\n" .. (tonumber(num) + 1) .. ". "
+            end
+            return "\n"
+        end, { expr = true, buffer = true })
     end
 })

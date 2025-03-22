@@ -73,9 +73,11 @@ require("lazy").setup({
         -- dependencies = { "echasnovski/mini.icons" },
         opts = {},
         keys = {
+            { "<leader>f", "<cmd>FzfLua grep_curbuf<CR>", desc = "files" },
+            { "<leader>fg", "<cmd>FzfLua grep_curbuf<CR>", desc = "files" },
             { "<leader>f/", "<cmd>FzfLua <CR>", desc = "FzfLua self" },
             { "<leader>ff", "<cmd>FzfLua files<CR>", desc = "files" },
-            { "<leader>fg", "<cmd>FzfLua grep_curbuf<CR>", desc = "files" },
+            { "<leader>fb", "<cmd>FzfLua buffers<CR>", desc = "files" },
         },
     },
 
@@ -87,7 +89,7 @@ require("lazy").setup({
                 -- config
             }
         end,
-        dependencies = { {'nvim-tree/nvim-web-devicons'}}
+        dependencies = { {'nvim-tree/nvim-web-devicons'}},
     },
 
     -- Markdown Preview
@@ -108,20 +110,18 @@ require("lazy").setup({
             require('markdown-table-mode').setup()
         end
     },
-    --[[
     {
-    "plasticboy/vim-markdown",
-    dependencies = { "godlygeek/tabular" },  -- 確保表格對齊功能可用
-    ft = { "markdown" },  -- 只有開啟 Markdown 檔案時才載入
-    config = function()
-    vim.g.vim_markdown_folding_disabled = 1  -- 不要自動折疊標題
-    vim.g.vim_markdown_conceal = 0  -- 顯示標準的 Markdown 符號，不隱藏
-    vim.g.vim_markdown_new_list_item_indent = 0  -- 列表對齊
-    vim.g.vim_markdown_math = 1  -- 支援 LaTeX 數學模式
-    vim.g.vim_markdown_toc_autofit = 1  -- 自動調整 TOC（目錄）的寬度
-    end
+        "plasticboy/vim-markdown",
+        dependencies = { "godlygeek/tabular" },  -- 確保表格對齊功能可用
+        ft = { "markdown" },  -- 只有開啟 Markdown 檔案時才載入
+        config = function()
+            vim.g.vim_markdown_folding_disabled = 1  -- 不要自動折疊標題
+            vim.g.vim_markdown_conceal = 0  -- 顯示標準的 Markdown 符號，不隱藏
+            vim.g.vim_markdown_new_list_item_indent = 0  -- 列表對齊
+            vim.g.vim_markdown_math = 1  -- 支援 LaTeX 數學模式
+            vim.g.vim_markdown_toc_autofit = 1  -- 自動調整 TOC（目錄）的寬度
+        end
     },
-    ]]--
     -- LSP manager
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
