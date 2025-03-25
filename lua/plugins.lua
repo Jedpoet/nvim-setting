@@ -91,7 +91,6 @@ require("lazy").setup({
         ---@module "neo-tree"
         ---@type neotree.Config?
         opts = {
-            -- fill any relevant options here
         },
     },
 
@@ -299,19 +298,6 @@ require("lazy").setup({
 require('move').setup({})
 
 require("ibl").setup()
-
-require("treesitter-context").setup({
-    enable = true,
-    throttle = true,
-    max_lines = 0, 
-    patterns = {
-        default = {
-            "class",
-            "function",
-            "method",
-        },
-    },
-})
 
 require("nvim-lastplace").setup({
     lastplace_ignore_buftype = { "quickfix", "nofile", "help" },
