@@ -28,16 +28,25 @@ vim.keymap.set('n', '<C-Right>', ':vertical resize +2<CR>', opts)
 -- Nvim-move setting
 vim.keymap.set('n', '<A-j>', ':MoveLine(1)<CR>', opts)
 vim.keymap.set('n', '<A-k>', ':MoveLine(-1)<CR>', opts)
-vim.keymap.set('n', '<A-h>', ':MoveHChar(-1)<CR>', opts)
-vim.keymap.set('n', '<A-l>', ':MoveHChar(1)<CR>', opts)
+-- vim.keymap.set('n', '<A-h>', ':MoveHChar(-1)<CR>', opts)
+-- vim.keymap.set('n', '<A-l>', ':MoveHChar(1)<CR>', opts)
 vim.keymap.set('n', '<leader>wf', ':MoveWord(1)<CR>', opts)
 vim.keymap.set('n', '<leader>wb', ':MoveWord(-1)<CR>', opts)
+vim.keymap.set('n', '<leader>n', ":BufferLineCycleNext<CR>", opts)
+vim.keymap.set('n', '<leader>r', "<cmd>ToggleTerm size=5 dir=~/Desktop direction=horizontal name=desktop<CR>", opts)
 
 -----------------
 -- Insert mode --
 -----------------
 
 vim.keymap.set('i', 'jk', '<Esc>', opts)
+vim.keymap.set('i', "(", "() <++><Esc>F<hhi", opts)
+vim.keymap.set('i', "[", "[] <++><Esc>F<hhi", opts)
+vim.keymap.set('i', "{", "{} <++><Esc>F<hhi", opts)
+vim.keymap.set('i', "\"", "\"\" <++><Esc>F<hhi", opts)
+vim.keymap.set('i', "\'", "\'\' <++><Esc>F<hhi", opts)
+vim.keymap.set('i', ",<", "< <++>> <++><Esc>F<hhhhhhhi", opts)
+vim.keymap.set('i', ",f", "<Esc>/ <++><CR>:noh<CR>c5l", opts)
 
 -----------------
 -- Visual mode --
@@ -50,8 +59,8 @@ vim.keymap.set('v', '>', '>gv', opts)
 -- Nvim-move setting
 vim.keymap.set('v', '<A-j>', ':MoveBlock(1)<CR>', opts)
 vim.keymap.set('v', '<A-k>', ':MoveBlock(-1)<CR>', opts)
-vim.keymap.set('v', '<A-h>', ':MoveHBlock(-1)<CR>', opts)
-vim.keymap.set('v', '<A-l>', ':MoveHBlock(1)<CR>', opts)
+-- vim.keymap.set('v', '<A-h>', ':MoveHBlock(-1)<CR>', opts)
+-- vim.keymap.set('v', '<A-l>', ':MoveHBlock(1)<CR>', opts)
 
 -------------------
 -- Markdown only --
@@ -66,12 +75,10 @@ local mar = {
 vim.api.nvim_create_autocmd("FileType",{
     pattern = "markdown",
     callback = function()
-        vim.keymap.set('n', "<leader>mp", "<cmd>MarkdownPreviewToggle<CR>", mar)
-        vim.keymap.set('i', "$", "$ $<++><Esc>F$hi", mar)
-        vim.keymap.set('i', "<,", "< ><++><Esc>F<hhi", mar)
-        vim.keymap.set('i', ",t", "| <tt> | <++> |<CR>| ---- | ---- |<CR>| <++> | <++> |<Esc>/<tt><CR>:noh<CR>c4l", mar)
-        vim.keymap.set('i', ",l", "[<tt>](<++>)<++><Esc>/<tt><CR>:noh<CR>c4l", mar)
-        vim.keymap.set('i', ",f", "<Esc>/<++><CR>:noh<CR>c4l", mar)
+        vim.keymap.set('n', "<leader>m", "<cmd>MarkdownPreviewToggle<CR>", mar)
+        vim.keymap.set('i', "$", "$ <++>$ <++><Esc>F$hhhhhi", mar)
+        vim.keymap.set('i', ",t", "| <tt> |  <++> |<CR>| ---- | ---- |<CR>|  <++> |  <++> |<Esc>/<tt><CR>:noh<CR>c4l", mar)
+        vim.keymap.set('i', ",l", "[<tt>]( <++>) <++><Esc>/<tt><CR>:noh<CR>c4l", mar)
         vim.keymap.set("i", "<CR>", function()
             local line = vim.api.nvim_get_current_line()
             local num, rest = line:match("^(%d+)%.(.*)")
@@ -82,3 +89,4 @@ vim.api.nvim_create_autocmd("FileType",{
         end, { expr = true, buffer = true })
     end
 })
+

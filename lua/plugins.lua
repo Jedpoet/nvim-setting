@@ -13,12 +13,32 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 
+    --[[
     {
         'windwp/nvim-autopairs',
         event = "InsertEnter",
         config = true
         -- use opts = {} for passing setup options
         -- this is equivalent to setup({}) function
+    },
+    ]]--
+    {
+        "folke/which-key.nvim",
+        event = "VeryLazy",
+        opts = {
+            -- your configuration comes here
+            -- or leave it empty to use the default settings
+            -- refer to the configuration section below
+        },
+        keys = {
+            {
+                "<leader>?",
+                function()
+                    require("which-key").show({ global = false })
+                end,
+                desc = "Buffer Local Keymaps (which-key)",
+            },
+        },
     },
     {
         'fedepujol/move.nvim',
@@ -33,10 +53,20 @@ require("lazy").setup({
         ---@type ibl.config
         opts = {},
     },
+
     {
         'nvim-lualine/lualine.nvim',
         dependencies = { 'nvim-tree/nvim-web-devicons' }
     },
+
+    {
+        'akinsho/bufferline.nvim', version = "*", dependencies = 'nvim-tree/nvim-web-devicons'
+    },
+
+    {
+        'akinsho/toggleterm.nvim', version = "*", config = true
+    },
+
     {
         "kylechui/nvim-surround",
         version = "^3.0.0", -- Use for stability; omit to use `main` branch for the latest features
@@ -47,6 +77,7 @@ require("lazy").setup({
             })
         end
     },
+
     {
         "nvim-neo-tree/neo-tree.nvim",
         branch = "v3.x",
@@ -80,6 +111,22 @@ require("lazy").setup({
             { "<leader>fb", "<cmd>FzfLua buffers<CR>", desc = "files" },
         },
     },
+
+    {
+        "romgrk/nvim-treesitter-context",
+        lazy = true,
+    },
+
+    {
+        "ethanholz/nvim-lastplace",
+        lazy = true,
+    },
+
+    --[[
+    {
+    'mhinz/vim-startify',
+    },
+    ]]--
 
     {
         'nvimdev/dashboard-nvim',
@@ -122,6 +169,93 @@ require("lazy").setup({
             vim.g.vim_markdown_toc_autofit = 1  -- 自動調整 TOC（目錄）的寬度
         end
     },
+
+    {
+        "nathom/filetype.nvim",
+        lazy = true,
+        event = { "BufRead", "BufNewFile" },
+        config = function()
+            require("filetype").setup({
+                overrides = {
+                    extensions = {
+                        h = "cpp",
+                    },
+                }
+            })
+        end
+    },
+
+    {
+        "ggandor/leap.nvim",
+        lazy = true,
+        keys = { "E", "R", "W", "dE", "dR", "yE", "yR", "cE", "cR" },
+        config = function()
+            require("leap").opts.highlight_unlabeled_phase_one_targets = true
+            -- leap.add_default_mappings()
+            vim.keymap.set({ "x", "o", "n" }, "E", "<Plug>(leap-forward-to)")
+            vim.keymap.set({ "x", "o", "n" }, "R", "<Plug>(leap-backward-to)")
+            vim.keymap.set({ "x", "o", "n" }, "W", "<Plug>(leap-from-window)")
+        end,
+    },
+
+    {
+        "ibhagwan/smartyank.nvim",
+        lazy = true,
+        event = { "BufRead", "BufNewFile" },
+        config = function()
+            require("smartyank").setup()
+        end,
+    },
+
+    {
+        "nvim-treesitter/nvim-treesitter", build = ":TSUpdate"
+    },
+
+    --[[
+    {
+        "rcarriga/nvim-notify",
+        lazy = true,
+        event = "VeryLazy",
+        config = function()
+            local notify = require("notify")
+            notify.setup({
+                -- "fade", "slide", "fade_in_slide_out", "static"
+                stages = "static",
+                on_open = nil,
+                on_close = nil,
+                timeout = 3000,
+                fps = 1,
+                render = "default",
+                background_colour = "Normal",
+                max_width = math.floor(vim.api.nvim_win_get_width(0) / 2),
+                max_height = math.floor(vim.api.nvim_win_get_height(0) / 4),
+                -- minimum_width = 50,
+                -- ERROR > WARN > INFO > DEBUG > TRACE
+                level = "TRACE",
+            })
+
+            vim.notify = notify
+        end,
+    },
+
+    {
+        "folke/noice.nvim",
+        event = "VeryLazy",
+        opts = {
+            -- add any options here
+        },
+        dependencies = {
+            -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+            "MunifTanjim/nui.nvim",
+            -- OPTIONAL:
+            --   `nvim-notify` is only needed, if you want to use the notification view.
+            --   If not available, we use `mini` as the fallback
+            "rcarriga/nvim-notify",
+        }
+    },
+    --]]
+
+
     -- LSP manager
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
@@ -131,6 +265,11 @@ require("lazy").setup({
     {
         "gbprod/nord.nvim",
     },
+
+    {
+        "zacanger/angr.vim",
+    },
+
     -- Vscode-like pictograms
     {
         "onsails/lspkind.nvim",
@@ -158,4 +297,51 @@ require("lazy").setup({
 })
 
 require('move').setup({})
+
 require("ibl").setup()
+
+require("treesitter-context").setup({
+    enable = true,
+    throttle = true,
+    max_lines = 0, 
+    patterns = {
+        default = {
+            "class",
+            "function",
+            "method",
+        },
+    },
+})
+
+require("nvim-lastplace").setup({
+    lastplace_ignore_buftype = { "quickfix", "nofile", "help" },
+    lastplace_ignore_filetype = {
+        "gitcommit",
+        "gitrebase",
+        "svn",
+        "hgcommit",
+    },
+    lastplace_open_folds = true,
+})
+
+--[[
+require("noice").setup({
+    lsp = {
+        -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+        override = {
+            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+            ["vim.lsp.util.stylize_markdown"] = true,
+            ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
+        },
+    },
+    -- you can enable a preset for easier configuration
+    presets = {
+        bottom_search = true, -- use a classic bottom cmdline for search
+        command_palette = true, -- position the cmdline and popupmenu together
+        long_message_to_split = true, -- long messages will be sent to a split
+        inc_rename = false, -- enables an input dialog for inc-rename.nvim
+        lsp_doc_border = false, -- add a border to hover docs and signature help
+    },
+})
+--]]
+
