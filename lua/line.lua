@@ -21,7 +21,7 @@ require('lualine').setup {
     sections = {
         lualine_a = {'mode'},
         lualine_b = {'branch', 'diff', 'diagnostics'},
-        lualine_c = {'filename', 'buffers',
+        lualine_c = {'filename',
         {
             function()
                 return vim.bo.modified and "[未儲存]" or "[已儲存]"

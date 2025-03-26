@@ -43,8 +43,10 @@ require("lazy").setup({
     {
         'fedepujol/move.nvim',
         opts = {
-            --- Config
-        }
+            char = {
+                enable = true;
+            },
+        },
     },
     {
         "lukas-reineke/indent-blankline.nvim",
@@ -60,7 +62,9 @@ require("lazy").setup({
     },
 
     {
-        'akinsho/bufferline.nvim', version = "*", dependencies = 'nvim-tree/nvim-web-devicons'
+        'akinsho/bufferline.nvim',
+        version = "*",
+        dependencies = 'nvim-tree/nvim-web-devicons',
     },
 
     {
@@ -85,7 +89,6 @@ require("lazy").setup({
             "nvim-lua/plenary.nvim",
             "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
             "MunifTanjim/nui.nvim",
-            -- {"3rd/image.nvim", opts = {}}, -- Optional image support in preview window: See `# Preview Mode` for more information
         },
         lazy = false, -- neo-tree will lazily load itself
         ---@module "neo-tree"
@@ -120,12 +123,6 @@ require("lazy").setup({
         "ethanholz/nvim-lastplace",
         lazy = true,
     },
-
-    --[[
-    {
-    'mhinz/vim-startify',
-    },
-    ]]--
 
     {
         'nvimdev/dashboard-nvim',
@@ -210,31 +207,13 @@ require("lazy").setup({
         "nvim-treesitter/nvim-treesitter", build = ":TSUpdate"
     },
 
-    --[[
     {
         "rcarriga/nvim-notify",
         lazy = true,
         event = "VeryLazy",
         config = function()
-            local notify = require("notify")
-            notify.setup({
-                -- "fade", "slide", "fade_in_slide_out", "static"
-                stages = "static",
-                on_open = nil,
-                on_close = nil,
-                timeout = 3000,
-                fps = 1,
-                render = "default",
-                background_colour = "Normal",
-                max_width = math.floor(vim.api.nvim_win_get_width(0) / 2),
-                max_height = math.floor(vim.api.nvim_win_get_height(0) / 4),
-                -- minimum_width = 50,
-                -- ERROR > WARN > INFO > DEBUG > TRACE
-                level = "TRACE",
-            })
-
-            vim.notify = notify
-        end,
+            vim.notify = require("notify")
+        end
     },
 
     {
@@ -252,8 +231,6 @@ require("lazy").setup({
             "rcarriga/nvim-notify",
         }
     },
-    --]]
-
 
     -- LSP manager
     "williamboman/mason.nvim",

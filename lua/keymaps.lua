@@ -15,7 +15,6 @@ vim.keymap.set('n', '<C-j>', '<C-w>j', opts)
 vim.keymap.set('n', '<C-k>', '<C-w>k', opts)
 vim.keymap.set('n', '<C-l>', '<C-w>l', opts)
 vim.keymap.set('n', '<Space>', ':', opts)
-vim.keymap.set('n', '<C-e>', ':Neotree<CR>', opts)
 vim.keymap.set('n', '<leader>fa', ":lua require('fzf-lua').files({cwd='/'})<CR>",opts)
 
 -- Resize with arrows
@@ -25,15 +24,53 @@ vim.keymap.set('n', '<C-Down>', ':resize +2<CR>', opts)
 vim.keymap.set('n', '<C-Left>', ':vertical resize -2<CR>', opts)
 vim.keymap.set('n', '<C-Right>', ':vertical resize +2<CR>', opts)
 
+-------------------
+-- split windows --
+-------------------
+
+vim.keymap.set('n', 's', '<nop>', opts)
+vim.keymap.set('n', 'sl', 'splitright<CR>:vsplit<CR>', opts)
+vim.keymap.set('n', 'sh', 'nosplitright<CR>:vsplit<CR>', opts)
+vim.keymap.set('n', 'sj', 'splitbelow<CR>:split<CR>', opts)
+vim.keymap.set('n', 'sk', 'nosplitbelow<CR>:split<CR>', opts)
+
+-- jump between windows
+vim.keymap.set('n', '<leader>l', '<c-w>l', opts)
+vim.keymap.set('n', '<leader>h', '<c-w>h', opts)
+vim.keymap.set('n', '<leader>j', '<c-w>j', opts)
+vim.keymap.set('n', '<leader>k', '<c-w>k', opts)
+
+vim.keymap.set('n', '<up>', '<cmd>res +5<CR>', opts)
+vim.keymap.set('n', '<down>', '<cmd>res -5<CR>', opts)
+vim.keymap.set('n', '<left>', '<cmd>vertical res -5<CR>', opts)
+vim.keymap.set('n', '<up>', '<cmd>vertical res +5<CR>', opts)
+
 -- Nvim-move setting
 vim.keymap.set('n', '<A-j>', ':MoveLine(1)<CR>', opts)
 vim.keymap.set('n', '<A-k>', ':MoveLine(-1)<CR>', opts)
--- vim.keymap.set('n', '<A-h>', ':MoveHChar(-1)<CR>', opts)
--- vim.keymap.set('n', '<A-l>', ':MoveHChar(1)<CR>', opts)
+vim.keymap.set('n', '<A-h>', ':MoveHChar(-1)<CR>', opts)
+vim.keymap.set('n', '<A-l>', ':MoveHChar(1)<CR>', opts)
 vim.keymap.set('n', '<leader>wf', ':MoveWord(1)<CR>', opts)
 vim.keymap.set('n', '<leader>wb', ':MoveWord(-1)<CR>', opts)
-vim.keymap.set('n', '<leader>n', ":BufferLineCycleNext<CR>", opts)
+vim.keymap.set('n', '<leader>n', "<cmd>BufferLineCycleNext<CR>", opts) -- 下一個 buffer
+vim.keymap.set('n', '<leader>p', "<cmd>BufferLineCyclePrev<CR>", opts) -- 上一個 buffer
+vim.keymap.set("n", "<leader>g", ":BufferLineGoToBuffer ", opts)
+vim.keymap.set("n", "<leader>bd", "<cmd>bd<CR>", opts) -- 關閉 buffer
 vim.keymap.set('n', '<leader>r', "<cmd>ToggleTerm size=5 dir=~/Desktop direction=horizontal name=desktop<CR>", opts)
+vim.keymap.set("n", "<C-e>", function()
+    local neo_tree = require("neo-tree.command")
+    neo_tree.execute({ toggle = true })
+end, { noremap = true, silent = true })
+
+vim.keymap.set("i", "<CR>", function()
+    local line = vim.api.nvim_get_current_line()
+    if line:find("{}") then
+        return "<CR><Esc>O"
+    else
+        return "<CR>"
+    end
+end, { expr = true, noremap = true })
+
 
 -----------------
 -- Insert mode --
@@ -45,7 +82,7 @@ vim.keymap.set('i', "[", "[] <++><Esc>F<hhi", opts)
 vim.keymap.set('i', "{", "{} <++><Esc>F<hhi", opts)
 vim.keymap.set('i', "\"", "\"\" <++><Esc>F<hhi", opts)
 vim.keymap.set('i', "\'", "\'\' <++><Esc>F<hhi", opts)
-vim.keymap.set('i', ",<", "< <++>> <++><Esc>F<hhhhhhhi", opts)
+vim.keymap.set('i', ",,", "< <++>> <++><Esc>F<hhhhhhhi", opts)
 vim.keymap.set('i', ",f", "<Esc>/ <++><CR>:noh<CR>c5l", opts)
 
 -----------------
@@ -81,7 +118,7 @@ vim.api.nvim_create_autocmd("FileType",{
         vim.keymap.set('i', ",l", "[<tt>]( <++>) <++><Esc>/<tt><CR>:noh<CR>c4l", mar)
         vim.keymap.set("i", "<CR>", function()
             local line = vim.api.nvim_get_current_line()
-            local num, rest = line:match("^(%d+)%.(.*)")
+            local num = line:match("^(%d+)%.(.*)")
             if num then
                 return "\n" .. (tonumber(num) + 1) .. ". "
             end
@@ -89,4 +126,5 @@ vim.api.nvim_create_autocmd("FileType",{
         end, { expr = true, buffer = true })
     end
 })
+
 
