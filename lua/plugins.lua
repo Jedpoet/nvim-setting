@@ -12,7 +12,21 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
+    {
+        "nvim-treesitter/nvim-treesitter",
+        build = ":TSUpdate",
+        config = function () 
+            local configs = require("nvim-treesitter.configs")
 
+            configs.setup({
+                ensure_installed = { "c", "lua", "vim"},
+                sync_install = false,
+                auto_install = false,
+                highlight = { enable = true,},
+                indent = { enable = true },  
+            })
+        end
+    },
     --[[
     {
         'windwp/nvim-autopairs',
@@ -69,6 +83,28 @@ require("lazy").setup({
 
     {
         'akinsho/toggleterm.nvim', version = "*", config = true
+    },
+
+    {
+        "rcarriga/nvim-notify",
+        lazy = true,
+        event = "VeryLazy",
+        config = function()
+            local notify = require("notify")
+
+            notify.setup({
+                stages = "fade_in_slide_out",
+                timeout = 3000,
+                fps = 60,
+                render = "default",
+                background_colour = "Normal",
+                max_width = math.floor(vim.o.columns * 0.5),
+                max_height = math.floor(vim.o.lines * 0.25),
+                level = "TRACE",
+            })
+
+            vim.notify = notify
+        end,
     },
 
     {
@@ -204,32 +240,37 @@ require("lazy").setup({
     },
 
     {
-        "nvim-treesitter/nvim-treesitter", build = ":TSUpdate"
-    },
-
-    {
-        "rcarriga/nvim-notify",
-        lazy = true,
-        event = "VeryLazy",
-        config = function()
-            vim.notify = require("notify")
-        end
-    },
-
-    {
         "folke/noice.nvim",
-        event = "VeryLazy",
-        opts = {
-            -- add any options here
-        },
-        dependencies = {
-            -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-            "MunifTanjim/nui.nvim",
-            -- OPTIONAL:
-            --   `nvim-notify` is only needed, if you want to use the notification view.
-            --   If not available, we use `mini` as the fallback
-            "rcarriga/nvim-notify",
-        }
+        lazy = true,
+        event = { "BufRead", "BufNewFile" },
+        dependencies = { "rcarriga/nvim-notify", "MunifTanjim/nui.nvim" },
+        config = function()
+            require("noice").setup({
+                lsp = {
+                    progress = {
+                        enabled = false,
+                    },
+                },
+                presets = {
+                    bottom_search = false,
+                    command_palette = true,
+                    long_message_to_split = true,
+                    inc_rename = false,
+                    lsp_doc_border = true,
+                },
+                messages = {
+                    enabled = true,
+                    view = "notify",
+                    view_error = "notify",
+                    view_warn = "notify",
+                    view_history = "messages",
+                    view_search = "virtualtext",
+                },
+                health = {
+                    checker = true,
+                },
+            })
+        end,
     },
 
     -- LSP manager
@@ -238,10 +279,17 @@ require("lazy").setup({
     "neovim/nvim-lspconfig",
 
     -- theme
-    {
-        "gbprod/nord.nvim",
+    { 
+        "catppuccin/nvim", name = "catppuccin", priority = 1000,
     },
-
+    {
+        'AlexvZyl/nordic.nvim',
+        lazy = false,
+        priority = 1000,
+        config = function()
+            require('nordic').load()
+        end
+    },
     {
         "zacanger/angr.vim",
     },
@@ -272,6 +320,7 @@ require("lazy").setup({
     },
 })
 
+
 require('move').setup({})
 
 require("ibl").setup()
@@ -288,23 +337,40 @@ require("nvim-lastplace").setup({
 })
 
 --[[
-require("noice").setup({
+    require("noice").setup({
+    debug = true,  -- 啟用日誌
+    -- 禁用 LSP 的工作區加載動畫
+    handlers = {
+    ["window/showMessage"] = function(_, result)
+    if result.type == 3 then
+    -- 如果是工作區加載消息，則跳過顯示
+    return
+    end
+    vim.lsp.handlers["window/showMessage"](_, result)
+    end,
+    },
     lsp = {
-        -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-        override = {
-            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-            ["vim.lsp.util.stylize_markdown"] = true,
-            ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
-        },
+    diagnostics = {
+    enable = false,  -- 禁用診斷通知
+    },
+    progress = {
+    enabled = true,  -- 確保這裡的配置正確
+    },
+    -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+    override = {
+    ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+    ["vim.lsp.util.stylize_markdown"] = true,
+    ["cmp.entry.get_documentation"] = true,
+    },
     },
     -- you can enable a preset for easier configuration
     presets = {
-        bottom_search = true, -- use a classic bottom cmdline for search
-        command_palette = true, -- position the cmdline and popupmenu together
-        long_message_to_split = true, -- long messages will be sent to a split
-        inc_rename = false, -- enables an input dialog for inc-rename.nvim
-        lsp_doc_border = false, -- add a border to hover docs and signature help
+    bottom_search = true, -- use a classic bottom cmdline for search
+    command_palette = true, -- position the cmdline and popupmenu together
+    long_message_to_split = true, -- long messages will be sent to a split
+    inc_rename = false, -- enables an input dialog for inc-rename.nvim
+    lsp_doc_border = false, -- add a border to hover docs and signature help
     },
-})
---]]
+    })
+    --]]
 

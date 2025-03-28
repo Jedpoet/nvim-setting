@@ -30,7 +30,15 @@ require('lualine').setup {
                 return { fg = vim.bo.modified and "#ff5555" or "#50fa7b" }  -- 紅色（未儲存）→ 綠色（已儲存）
             end,
         },},
-        lualine_x = {'encoding', 'lsp_status', 'filetype'},
+        lualine_x = {'encoding', 'lsp_status'},
+        --lualine_x = {{ "fileformat", "filetype" },
+            --[[
+        {
+            require("noice").api.statusline.mode.get,
+            cond = require("noice").api.statusline.mode.has,
+            color = { fg = "#ff9e64" },
+        },
+        --]]
         lualine_y = {'searchcount', 'progress'},
         lualine_z = {'location'}
     },

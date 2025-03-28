@@ -24,27 +24,6 @@ vim.keymap.set('n', '<C-Down>', ':resize +2<CR>', opts)
 vim.keymap.set('n', '<C-Left>', ':vertical resize -2<CR>', opts)
 vim.keymap.set('n', '<C-Right>', ':vertical resize +2<CR>', opts)
 
--------------------
--- split windows --
--------------------
-
-vim.keymap.set('n', 's', '<nop>', opts)
-vim.keymap.set('n', 'sl', 'splitright<CR>:vsplit<CR>', opts)
-vim.keymap.set('n', 'sh', 'nosplitright<CR>:vsplit<CR>', opts)
-vim.keymap.set('n', 'sj', 'splitbelow<CR>:split<CR>', opts)
-vim.keymap.set('n', 'sk', 'nosplitbelow<CR>:split<CR>', opts)
-
--- jump between windows
-vim.keymap.set('n', '<leader>l', '<c-w>l', opts)
-vim.keymap.set('n', '<leader>h', '<c-w>h', opts)
-vim.keymap.set('n', '<leader>j', '<c-w>j', opts)
-vim.keymap.set('n', '<leader>k', '<c-w>k', opts)
-
-vim.keymap.set('n', '<up>', '<cmd>res +5<CR>', opts)
-vim.keymap.set('n', '<down>', '<cmd>res -5<CR>', opts)
-vim.keymap.set('n', '<left>', '<cmd>vertical res -5<CR>', opts)
-vim.keymap.set('n', '<up>', '<cmd>vertical res +5<CR>', opts)
-
 -- Nvim-move setting
 vim.keymap.set('n', '<A-j>', ':MoveLine(1)<CR>', opts)
 vim.keymap.set('n', '<A-k>', ':MoveLine(-1)<CR>', opts)

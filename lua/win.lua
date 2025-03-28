@@ -1,8 +1,5 @@
 local plugin = "My Awesome Plugin"
 
-vim.notify("Hello, world!", "info", { title = "Test Notification" })
-
---[[
 vim.notify("This is an error message.\nSomething went wrong!", "error", {
   title = plugin,
   on_open = function()
@@ -23,5 +20,4 @@ vim.notify("This is an error message.\nSomething went wrong!", "error", {
   end,
 })
 
---]]
 
