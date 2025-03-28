@@ -206,7 +206,10 @@ require("lazy").setup({
         "bullets-vim/bullets.vim",
         config = function()
             vim.g.bullets_enabled_file_types = {"markdown"}
-            vim.g.bullets.outline_levels = {"num", "ABC", "abc", "std-", "std+", "std*", "chk"}
+            vim.g.bullets_outline_levels = {"num", "ABC", "abc", "std-", "std+", "std*", "chk"}
+            vim.g.bullets_custom_mappins = {
+    {'nmap', 'o', '<Plug>(bullets-newline)'}
+    }
         end
     },
 
