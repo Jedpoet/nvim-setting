@@ -138,9 +138,6 @@ lspconfig.clangd.setup({
 --     Place your compiler flags in the compile_flags.txt file, located in the root directory
 --     of your project. Each line in the file should contain a single compiler flag.
 -- src: https://clangd.llvm.org/installation#compile_commandsjson
-lspconfig.clangd.setup({
-	on_attach = on_attach,
-})
 
 lspconfig.marksman.setup({})
 lspconfig.texlab.setup({

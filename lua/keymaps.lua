@@ -50,7 +50,6 @@ vim.keymap.set("i", "<CR>", function()
     end
 end, { expr = true, noremap = true })
 
-
 -----------------
 -- Insert mode --
 -----------------
@@ -95,14 +94,6 @@ vim.api.nvim_create_autocmd("FileType",{
         vim.keymap.set('i', "$", "$ <++>$ <++><Esc>F$hhhhhi", mar)
         vim.keymap.set('i', ",t", "| <tt> |  <++> |<CR>| ---- | ---- |<CR>|  <++> |  <++> |<Esc>/<tt><CR>:noh<CR>c4l", mar)
         vim.keymap.set('i', ",l", "[<tt>]( <++>) <++><Esc>/<tt><CR>:noh<CR>c4l", mar)
-        vim.keymap.set("i", "<CR>", function()
-            local line = vim.api.nvim_get_current_line()
-            local num = line:match("^(%d+)%.(.*)")
-            if num then
-                return "\n" .. (tonumber(num) + 1) .. ". "
-            end
-            return "\n"
-        end, { expr = true, buffer = true })
     end
 })
 
