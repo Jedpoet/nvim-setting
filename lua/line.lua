@@ -20,25 +20,38 @@ require('lualine').setup {
     },
     sections = {
         lualine_a = {'mode'},
-        lualine_b = {'branch', 'diff', 'diagnostics'},
+        lualine_b = {{'branch', 'diff', 'diagnostics'},
+                {
+                    function()
+                        local bufnr = vim.api.nvim_get_current_buf()
+                        local diagnostics = vim.diagnostic.get(bufnr)
+                        local error_lines = {}
+
+                        for _, diag in ipairs(diagnostics) do
+                            if diag.severity == vim.diagnostic.severity.ERROR then
+                                table.insert(error_lines, diag.lnum + 1) -- lnum 從 0 開始，所以 +1
+                            end
+                        end
+
+                        if #error_lines > 0 then
+                            return " " .. table.concat(error_lines, ", ")
+                        else
+                            return ""
+                        end
+                    end,
+                    color = { fg = "#ff5555", gui = "bold" },
+                }
+        },
         lualine_c = {'filename',
-        {
-            function()
-                return vim.bo.modified and "[未儲存]" or "[已儲存]"
+            {
+                function()
+                    return vim.bo.modified and "[未儲存]" or "[已儲存]"
             end,
             color = function()
                 return { fg = vim.bo.modified and "#ff5555" or "#50fa7b" }  -- 紅色（未儲存）→ 綠色（已儲存）
             end,
         },},
         lualine_x = {'encoding', 'lsp_status'},
-        --lualine_x = {{ "fileformat", "filetype" },
-            --[[
-        {
-            require("noice").api.statusline.mode.get,
-            cond = require("noice").api.statusline.mode.has,
-            color = { fg = "#ff9e64" },
-        },
-        --]]
         lualine_y = {'searchcount', 'progress'},
         lualine_z = {'location'}
     },

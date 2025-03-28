@@ -92,8 +92,18 @@ vim.api.nvim_create_autocmd("FileType",{
     callback = function()
         vim.keymap.set('n', "<leader>m", "<cmd>MarkdownPreviewToggle<CR>", mar)
         vim.keymap.set('i', "$", "$ <++>$ <++><Esc>F$hhhhhi", mar)
-        vim.keymap.set('i', ",t", "| <tt> |  <++> |<CR>| ---- | ---- |<CR>|  <++> |  <++> |<Esc>/<tt><CR>:noh<CR>c4l", mar)
+        vim.keymap.set('i', ",t", "| <tt> |  <++> | <++><CR>| ---- | ---- |<CR>|  <++> |  <++> | <++><Esc>/<tt><CR>:noh<CR>c4l", mar)
+        vim.keymap.set('i', ".t", " <tt> |  <++><Esc>/<tt><CR>:noh<CR>c4l", mar)
+        vim.keymap.set('i', ",c", "$\\begin{cases}<CR><tt>\\\\<CR> <++>\\\\<CR>\\end{cases}<CR>$<Esc>/<tt><CR>:noh<CR>c4l", mar)
         vim.keymap.set('i', ",l", "[<tt>]( <++>) <++><Esc>/<tt><CR>:noh<CR>c4l", mar)
+        vim.keymap.set("i", "<CR>", function()
+            local line = vim.api.nvim_get_current_line()
+            if line:match("|%s*$") then
+                return "<CR>|"
+            else
+                return "<CR>"
+            end
+        end, { expr = true, noremap = true })
     end
 })
 

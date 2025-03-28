@@ -82,7 +82,10 @@ require("lazy").setup({
     },
 
     {
-        'akinsho/toggleterm.nvim', version = "*", config = true
+        'akinsho/toggleterm.nvim', version = "*", config = true,
+        opts = {
+            direction = "float",
+        },
     },
 
     {
@@ -190,26 +193,13 @@ require("lazy").setup({
         end
     },
     {
-        "plasticboy/vim-markdown",
-        dependencies = { "godlygeek/tabular" },  -- 確保表格對齊功能可用
-        ft = { "markdown" },  -- 只有開啟 Markdown 檔案時才載入
-        config = function()
-            vim.g.vim_markdown_folding_disabled = 1  -- 不要自動折疊標題
-            vim.g.vim_markdown_conceal = 0  -- 顯示標準的 Markdown 符號，不隱藏
-            vim.g.vim_markdown_new_list_item_indent = 0  -- 列表對齊
-            vim.g.vim_markdown_math = 1  -- 支援 LaTeX 數學模式
-            vim.g.vim_markdown_toc_autofit = 1  -- 自動調整 TOC（目錄）的寬度
-        end
-    },
-
-    {
         "bullets-vim/bullets.vim",
         config = function()
             vim.g.bullets_enabled_file_types = {"markdown"}
             vim.g.bullets_outline_levels = {"num", "ABC", "abc", "std-", "std+", "std*", "chk"}
             vim.g.bullets_custom_mappins = {
-    {'nmap', 'o', '<Plug>(bullets-newline)'}
-    }
+                {'nmap', 'o', '<Plug>(bullets-newline)'}
+            }
         end
     },
 
@@ -281,15 +271,19 @@ require("lazy").setup({
         "catppuccin/nvim", name = "catppuccin", priority = 1000,
     },
     {
-        'AlexvZyl/nordic.nvim',
-        lazy = false,
-        priority = 1000,
-        config = function()
-            require('nordic').load()
-        end
+        'nordtheme/vim',
     },
     {
         "zacanger/angr.vim",
+    },
+
+    {
+        "MysticalDevil/inlay-hints.nvim",
+        event = "LspAttach",
+        dependencies = { "neovim/nvim-lspconfig" },
+        config = function()
+            require("inlay-hints").setup()
+        end
     },
 
     -- Vscode-like pictograms
@@ -333,42 +327,4 @@ require("nvim-lastplace").setup({
     },
     lastplace_open_folds = true,
 })
-
---[[
-    require("noice").setup({
-    debug = true,  -- 啟用日誌
-    -- 禁用 LSP 的工作區加載動畫
-    handlers = {
-    ["window/showMessage"] = function(_, result)
-    if result.type == 3 then
-    -- 如果是工作區加載消息，則跳過顯示
-    return
-    end
-    vim.lsp.handlers["window/showMessage"](_, result)
-    end,
-    },
-    lsp = {
-    diagnostics = {
-    enable = false,  -- 禁用診斷通知
-    },
-    progress = {
-    enabled = true,  -- 確保這裡的配置正確
-    },
-    -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-    override = {
-    ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-    ["vim.lsp.util.stylize_markdown"] = true,
-    ["cmp.entry.get_documentation"] = true,
-    },
-    },
-    -- you can enable a preset for easier configuration
-    presets = {
-    bottom_search = true, -- use a classic bottom cmdline for search
-    command_palette = true, -- position the cmdline and popupmenu together
-    long_message_to_split = true, -- long messages will be sent to a split
-    inc_rename = false, -- enables an input dialog for inc-rename.nvim
-    lsp_doc_border = false, -- add a border to hover docs and signature help
-    },
-    })
-    --]]
 
