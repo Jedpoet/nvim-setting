@@ -16,6 +16,7 @@ vim.keymap.set('n', '<C-k>', '<C-w>k', opts)
 vim.keymap.set('n', '<C-l>', '<C-w>l', opts)
 vim.keymap.set('n', '<Space>', ':', opts)
 vim.keymap.set('n', '<leader>fa', ":lua require('fzf-lua').files({cwd='/'})<CR>",opts)
+vim.keymap.set('n', '<C-a>', "gg0vG$", opts)
 
 -- Resize with arrows
 -- delta: 2 lines
@@ -33,6 +34,7 @@ vim.keymap.set('n', '<leader>wf', ':MoveWord(1)<CR>', opts)
 vim.keymap.set('n', '<leader>wb', ':MoveWord(-1)<CR>', opts)
 vim.keymap.set('n', '<leader>n', "<cmd>BufferLineCycleNext<CR>", opts) -- 下一個 buffer
 vim.keymap.set('n', '<leader>p', "<cmd>BufferLineCyclePrev<CR>", opts) -- 上一個 buffer
+vim.keymap.set('n', '<leader>t', "<cmd>TagbarToggle<CR>", opts) -- 打開tagbar
 vim.keymap.set("n", "<leader>g", ":BufferLineGoToBuffer ", opts)
 vim.keymap.set("n", "<leader>bd", "<cmd>bd<CR>", opts) -- 關閉 buffer
 vim.keymap.set('n', '<leader>r', "<cmd>ToggleTerm size=5 dir=~/Desktop direction=horizontal name=desktop<CR>", opts)
@@ -94,7 +96,8 @@ vim.api.nvim_create_autocmd("FileType",{
         vim.keymap.set('i', "$", "$ <++>$ <++><Esc>F$hhhhhi", mar)
         vim.keymap.set('i', ",t", "| <tt> |  <++> | <++><CR>| ---- | ---- |<CR>|  <++> |  <++> | <++><Esc>/<tt><CR>:noh<CR>c4l", mar)
         vim.keymap.set('i', ".t", " <tt> |  <++><Esc>/<tt><CR>:noh<CR>c4l", mar)
-        vim.keymap.set('i', ",c", "$\\begin{cases}<CR><tt>\\\\<CR> <++>\\\\<CR>\\end{cases}<CR>$<Esc>/<tt><CR>:noh<CR>c4l", mar)
+        vim.keymap.set('i', ",c", "$\\begin{cases}<CR><tt>\\\\<CR> <++>\\\\ <++><CR>\\end{cases}$<CR> <++><Esc>/<tt><CR>:noh<CR>c4l", mar)
+        vim.keymap.set('i', ",m", "$\\left[\\begin{matrix}<CR><tt>\\\\<CR> <++>\\\\ <++><CR>\\end{matrix}\\right]$<CR> <++><Esc>/<tt><CR>:noh<CR>c4l", mar)
         vim.keymap.set('i', ",l", "[<tt>]( <++>) <++><Esc>/<tt><CR>:noh<CR>c4l", mar)
         vim.keymap.set("i", "<CR>", function()
             local line = vim.api.nvim_get_current_line()

@@ -82,6 +82,10 @@ require("lazy").setup({
     },
 
     {
+        'preservim/tagbar',
+    },
+
+    {
         'akinsho/toggleterm.nvim', version = "*", config = true,
         opts = {
             direction = "float",
@@ -235,6 +239,22 @@ require("lazy").setup({
         config = function()
             require("noice").setup({
                 lsp = {
+                    hover = {
+                        enabled = true,
+                        opts = {
+                            border = "rounded", -- 或 "single" / "double" / "solid"
+                            max_width = math.floor(vim.o.columns * 0.6), -- 60% 的螢幕寬度
+                            max_height = math.floor(vim.o.lines * 0.3),  -- 30% 的螢幕高度
+                        },
+                    },
+                    signature = {
+                        enabled = true,
+                        opts = {
+                            border = "rounded",
+                            max_width = math.floor(vim.o.columns * 0.8), -- 50% 的螢幕寬度
+                            max_height = math.floor(vim.o.lines * 0.2),  -- 20% 的螢幕高度
+                        },
+                    },
                     progress = {
                         enabled = false,
                     },
@@ -284,6 +304,18 @@ require("lazy").setup({
         config = function()
             require("inlay-hints").setup()
         end
+    },
+
+    -- AI code
+    {
+        "joshuavial/aider.nvim",
+        opts = {
+            -- your configuration comes here
+            -- if you don't want to use the default settings
+            auto_manage_context = true, -- automatically manage buffer context
+            default_bindings = true,    -- use default <leader>A keybindings
+            debug = false,              -- enable debug logging
+        },
     },
 
     -- Vscode-like pictograms

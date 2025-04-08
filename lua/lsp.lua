@@ -197,4 +197,19 @@ require("lspconfig").rust_analyzer.setup({
   }
 })
 
+local cmp = require("cmp")
+
+cmp.setup({
+    mapping = {
+        -- 讓 Tab 可以選擇補全項目
+        ["<Tab>"] = cmp.mapping.select_next_item(),
+        ["<S-Tab>"] = cmp.mapping.select_prev_item(),
+
+        -- 讓 Enter 只換行，不選擇補全
+        ["<CR>"] = cmp.mapping.confirm({
+            behavior = cmp.ConfirmBehavior.Insert,
+            select = false,  -- 這行確保 Enter **不會自動選擇補全項目**
+        }),
+    },
+})
 
