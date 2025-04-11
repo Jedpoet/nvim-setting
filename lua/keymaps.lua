@@ -34,7 +34,7 @@ vim.keymap.set('n', '<leader>wf', ':MoveWord(1)<CR>', opts)
 vim.keymap.set('n', '<leader>wb', ':MoveWord(-1)<CR>', opts)
 vim.keymap.set('n', '<leader>n', "<cmd>BufferLineCycleNext<CR>", opts) -- 下一個 buffer
 vim.keymap.set('n', '<leader>p', "<cmd>BufferLineCyclePrev<CR>", opts) -- 上一個 buffer
-vim.keymap.set('n', '<leader>t', "<cmd>TagbarToggle<CR>", opts) -- 打開tagbar
+vim.keymap.set('n', '<leader>t', "<cmd>TagbarToggle<CR><C-w>l", opts) -- 打開tagbar
 vim.keymap.set("n", "<leader>g", ":BufferLineGoToBuffer ", opts)
 vim.keymap.set("n", "<leader>bd", "<cmd>bd<CR>", opts) -- 關閉 buffer
 vim.keymap.set('n', '<leader>r', "<cmd>ToggleTerm size=5 dir=~/Desktop direction=horizontal name=desktop<CR>", opts)
