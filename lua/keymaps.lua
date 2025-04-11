@@ -97,6 +97,7 @@ vim.api.nvim_create_autocmd("FileType",{
         vim.keymap.set('i', ",t", "| <tt> |  <++> | <++><CR>| ---- | ---- |<CR>|  <++> |  <++> | <++><Esc>/<tt><CR>:noh<CR>c4l", mar)
         vim.keymap.set('i', ".t", " <tt> |  <++><Esc>/<tt><CR>:noh<CR>c4l", mar)
         vim.keymap.set('i', ",c", "$\\begin{cases}<CR><tt>\\\\<CR> <++>\\\\ <++><CR>\\end{cases}$<CR> <++><Esc>/<tt><CR>:noh<CR>c4l", mar)
+        vim.keymap.set('i', ",b", "<font color='#3D90D7'><tt></font><Esc>/<tt><CR>:noh<CR>c4l", mar)
         vim.keymap.set('i', ",m", "$\\left[\\begin{matrix}<CR><tt>\\\\<CR> <++>\\\\ <++><CR>\\end{matrix}\\right]$<CR> <++><Esc>/<tt><CR>:noh<CR>c4l", mar)
         vim.keymap.set('i', ",l", "[<tt>]( <++>) <++><Esc>/<tt><CR>:noh<CR>c4l", mar)
         vim.keymap.set("i", "<CR>", function()
