@@ -114,6 +114,15 @@ require("lazy").setup({
         end,
     },
 
+    -- 自動切換輸入法
+    {
+        "Jedpoet/im-switch.nvim",
+        cond = vim.loop.os_uname().sysname == "Windows_NT",
+        config = function()
+            require("im-switch").setup()
+        end,
+    },
+
     {
         "kylechui/nvim-surround",
         version = "^3.0.0", -- Use for stability; omit to use `main` branch for the latest features

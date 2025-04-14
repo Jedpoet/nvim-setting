@@ -1,3 +1,4 @@
+
 -- Hint: use `:h <option>` to figure out the meaning if needed
 vim.opt.clipboard = 'unnamedplus' -- use system clipboard
 vim.opt.termguicolors = true -- allow colors
@@ -27,4 +28,21 @@ vim.opt.incsearch = true -- search as characters are entered
 vim.opt.hlsearch = false -- do not highlight matches
 vim.opt.ignorecase = true -- ignore case in searches by default
 vim.opt.smartcase = true -- but make it case sensitive if an uppercase is entered
+
+-- Neovide setting
+if vim.g.neovide then
+    vim.o.guifont = "Firacode Nerd Font:h13"
+    vim.g.neovide_remember_window_size = true
+    vim.g.neovide_cursor_animation_length = 0.13
+    vim.g.neovide_scroll_animation_length = 0.1
+    vim.g.neovide_input_ime = false
+end
+
+function _G.RefreshIme()
+  if vim.g.neovide then
+    vim.fn.setimestatus(0)
+    vim.fn.setimestatus(1)
+  end
+end
+
 

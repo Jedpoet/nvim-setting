@@ -30,6 +30,7 @@ vim.keymap.set('n', '<A-j>', ':MoveLine(1)<CR>', opts)
 vim.keymap.set('n', '<A-k>', ':MoveLine(-1)<CR>', opts)
 vim.keymap.set('n', '<A-h>', ':MoveHChar(-1)<CR>', opts)
 vim.keymap.set('n', '<A-l>', ':MoveHChar(1)<CR>', opts)
+vim.keymap.set('n', '<C-v>', 'p', opts)
 vim.keymap.set('n', '<leader>wf', ':MoveWord(1)<CR>', opts)
 vim.keymap.set('n', '<leader>wb', ':MoveWord(-1)<CR>', opts)
 vim.keymap.set('n', '<leader>n', "<cmd>BufferLineCycleNext<CR>", opts) -- 下一個 buffer
@@ -64,6 +65,7 @@ vim.keymap.set('i', "\"", "\"\" <++><Esc>F<hhi", opts)
 vim.keymap.set('i', "\'", "\'\' <++><Esc>F<hhi", opts)
 vim.keymap.set('i', ",,", "< <++>> <++><Esc>F<hhhhhhhi", opts)
 vim.keymap.set('i', ",f", "<Esc>/ <++><CR>:noh<CR>c5l", opts)
+vim.keymap.set('i', "<C-v>", "<Esc>pi", opts)
 
 -----------------
 -- Visual mode --
@@ -110,5 +112,4 @@ vim.api.nvim_create_autocmd("FileType",{
         end, { expr = true, noremap = true })
     end
 })
-
 

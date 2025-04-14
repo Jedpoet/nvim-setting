@@ -213,3 +213,25 @@ cmp.setup({
     },
 })
 
+vim.diagnostic.config({
+    virtual_text = false,  -- 不顯示 inline 的小文字
+    signs = true,          -- 左側的 error/warning 標記
+    underline = true,
+    update_in_insert = false,
+    severity_sort = true,
+    float = {
+        focusable = false,
+        style = "minimal",
+        border = "rounded",  -- 浮動視窗邊框樣式，可選 single/rounded/solid/shadow
+        source = "always",   -- 顯示診斷來源
+        header = "",
+        prefix = "",
+    },
+})
+
+-- 光標停留時，顯示 diagnostic 浮動視窗
+vim.api.nvim_create_autocmd("CursorHold", {
+    callback = function()
+        vim.diagnostic.open_float(nil, { focus = false })
+    end,
+})
