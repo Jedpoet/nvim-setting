@@ -29,6 +29,16 @@ vim.opt.hlsearch = false -- do not highlight matches
 vim.opt.ignorecase = true -- ignore case in searches by default
 vim.opt.smartcase = true -- but make it case sensitive if an uppercase is entered
 
+-- 改 Neovim 的 updatetime（單位：毫秒）
+vim.o.updatetime = 500  -- 這裡決定游標停在原地多久後觸發 CursorHold
+
+-- 綁定 CursorHold 事件，觸發 diagnostic 視窗
+vim.api.nvim_create_autocmd("CursorHold", {
+  callback = function()
+    vim.diagnostic.open_float(nil, { focus = false })
+  end,
+})
+
 -- Neovide setting
 if vim.g.neovide then
     vim.o.guifont = "Firacode Nerd Font:h13"

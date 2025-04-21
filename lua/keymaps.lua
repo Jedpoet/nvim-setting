@@ -63,7 +63,7 @@ vim.keymap.set('i', "[", "[] <++><Esc>F<hhi", opts)
 vim.keymap.set('i', "{", "{} <++><Esc>F<hhi", opts)
 vim.keymap.set('i', "\"", "\"\" <++><Esc>F<hhi", opts)
 vim.keymap.set('i', "\'", "\'\' <++><Esc>F<hhi", opts)
-vim.keymap.set('i', ",,", "< <++>> <++><Esc>F<hhhhhhhi", opts)
+vim.keymap.set('i', "<>", "< <++>> <++><Esc>F<hhhhhhhi", opts)
 vim.keymap.set('i', ",f", "<Esc>/ <++><CR>:noh<CR>c5l", opts)
 vim.keymap.set('i', "<C-v>", "<Esc>pi", opts)
 

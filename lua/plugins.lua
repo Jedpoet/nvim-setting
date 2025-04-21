@@ -55,6 +55,12 @@ require("lazy").setup({
         },
     },
     {
+        "numToStr/Comment.nvim",
+        config = function()
+            require("Comment").setup()
+        end
+    },
+    {
         'fedepujol/move.nvim',
         opts = {
             char = {
@@ -265,7 +271,19 @@ require("lazy").setup({
                         },
                     },
                     progress = {
-                        enabled = false,
+                        enabled = true,
+                    },
+                    message = {
+                        enabled = true,
+                    },
+                },
+                routes = {
+                    {
+                        filter = {
+                            event = "notify",
+                            find = "No information available",
+                        },
+                        opts = { skip = true }, -- 避免某些無意義訊息彈出
                     },
                 },
                 presets = {
@@ -368,4 +386,14 @@ require("nvim-lastplace").setup({
     },
     lastplace_open_folds = true,
 })
+
+vim.diagnostic.config({
+  virtual_text = false,
+  signs = true,
+  float = {
+    border = "rounded",
+    source = "always",
+  },
+})
+
 
