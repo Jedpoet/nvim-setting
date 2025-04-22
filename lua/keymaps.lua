@@ -58,6 +58,8 @@ end, { expr = true, noremap = true })
 -----------------
 
 vim.keymap.set('i', 'jk', '<Esc>', opts)
+vim.keymap.set('i', '螭鍇', '<Esc>', opts)
+vim.keymap.set('i', '惡惡', '<Esc>', opts)
 vim.keymap.set('i', "(", "() <++><Esc>F<hhi", opts)
 vim.keymap.set('i', "[", "[] <++><Esc>F<hhi", opts)
 vim.keymap.set('i', "{", "{} <++><Esc>F<hhi", opts)

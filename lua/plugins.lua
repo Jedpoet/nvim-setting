@@ -123,7 +123,7 @@ require("lazy").setup({
     -- 自動切換輸入法
     {
         "Jedpoet/im-switch.nvim",
-        cond = vim.loop.os_uname().sysname == "Windows_NT",
+        -- event = "VimEnter",
         config = function()
             require("im-switch").setup()
         end,

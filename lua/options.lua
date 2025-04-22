@@ -45,7 +45,17 @@ if vim.g.neovide then
     vim.g.neovide_remember_window_size = true
     vim.g.neovide_cursor_animation_length = 0.13
     vim.g.neovide_scroll_animation_length = 0.1
-    vim.g.neovide_input_ime = false
+    -- vim.g.neovide_input_ime = false
+    -- vim.api.nvim_create_autocmd("InsertEnter", {
+    --     callback = function()
+    --         vim.g.neovide_input_ime = true
+    --     end,
+    -- })
+    -- vim.api.nvim_create_autocmd("InsertLeave", {
+    --     callback = function()
+    --         vim.g.neovide_input_ime = false
+    --     end,
+    -- })
 end
 
 function _G.RefreshIme()
