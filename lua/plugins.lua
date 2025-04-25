@@ -15,15 +15,15 @@ require("lazy").setup({
     {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
-        config = function () 
+        config = function()
             local configs = require("nvim-treesitter.configs")
 
             configs.setup({
-                ensure_installed = { "c", "lua", "vim"},
+                ensure_installed = { "c", "lua", "vim" },
                 sync_install = false,
                 auto_install = false,
-                highlight = { enable = true,},
-                indent = { enable = true },  
+                highlight = { enable = true, },
+                indent = { enable = true },
             })
         end
     },
@@ -35,7 +35,12 @@ require("lazy").setup({
         -- use opts = {} for passing setup options
         -- this is equivalent to setup({}) function
     },
-    ]]--
+    ]] --
+
+    {
+        "RRethy/vim-illuminate",
+    },
+
     {
         "folke/which-key.nvim",
         event = "VeryLazy",
@@ -64,7 +69,7 @@ require("lazy").setup({
         'fedepujol/move.nvim',
         opts = {
             char = {
-                enable = true;
+                enable = true,
             },
         },
     },
@@ -92,7 +97,9 @@ require("lazy").setup({
     },
 
     {
-        'akinsho/toggleterm.nvim', version = "*", config = true,
+        'akinsho/toggleterm.nvim',
+        version = "*",
+        config = true,
         opts = {
             direction = "float",
         },
@@ -164,13 +171,26 @@ require("lazy").setup({
         -- dependencies = { "echasnovski/mini.icons" },
         opts = {},
         keys = {
-            { "<leader>f", "<cmd>FzfLua grep_curbuf<CR>", desc = "files" },
+            --     { "<leader>f",  "<cmd>FzfLua grep_curbuf<CR>", desc = "files" },
             { "<leader>fg", "<cmd>FzfLua grep_curbuf<CR>", desc = "files" },
-            { "<leader>f/", "<cmd>FzfLua <CR>", desc = "FzfLua self" },
-            { "<leader>ff", "<cmd>FzfLua files<CR>", desc = "files" },
-            { "<leader>fb", "<cmd>FzfLua buffers<CR>", desc = "files" },
+            --     { "<leader>f/", "<cmd>FzfLua <CR>",            desc = "FzfLua self" },
+            --     { "<leader>ff", "<cmd>FzfLua files<CR>",       desc = "files" },
+            --     { "<leader>fb", "<cmd>FzfLua buffers<CR>",     desc = "files" },
         },
     },
+
+    -- Telescope
+    {
+        'nvim-telescope/telescope.nvim',
+        tag = '0.1.8',
+        dependencies = { 'nvim-lua/plenary.nvim' }
+    },
+
+    -- {
+    --     'nvim-telescope/telescope-fzf-native.nvim',
+    --     build =
+    --     'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release'
+    -- },
 
     {
         "romgrk/nvim-treesitter-context",
@@ -187,10 +207,59 @@ require("lazy").setup({
         event = 'VimEnter',
         config = function()
             require('dashboard').setup {
-                -- config
+                theme = "doom", -- 或 hyper，選你喜歡的樣式
+                config = {
+                    header = {
+                        "  ",
+                        "  ",
+                        "########################################################################",
+                        "#                                                                      #",
+                        "#       ██╗ █████╗ ██████╗ ███████╗██████╗  ██████╗ ███████╗████████╗  #",
+                        "#       ██║██╔══██╗██╔══██╗██╔════╝██╔══██╗██╔═══██╗██╔════╝╚══██╔══╝  #",
+                        "#       ██║███████║██║  ██║█████╗  ██████╔╝██║   ██║█████╗     ██║     #",
+                        "#  ██   ██║██╔══██║██║  ██║██╔══╝  ██╔═══╝ ██║   ██║██╔══╝     ██║     #",
+                        "#  ╚█████╔╝██║  ██║██████╔╝███████╗██║     ╚██████╔╝███████╗   ██║     #",
+                        "#   ╚════╝ ╚═╝  ╚═╝╚═════╝ ╚══════╝╚═╝      ╚═════╝ ╚══════╝   ╚═╝     #",
+                        "#                                                                      #",
+                        "########################################################################",
+                        "  ",
+                        "  ",
+                        "  ",
+                    },
+                    center = {
+                        {
+                            icon = "  ",
+                            desc = "Find File",
+                            key = "f",
+                            action = "Telescope find_files",
+                        },
+                        {
+                            icon = "  ",
+                            desc = "Recent Files",
+                            key = "r",
+                            action = "Telescope oldfiles",
+                        },
+                        {
+                            icon = "  ",
+                            desc = "Show Lazy",
+                            key = "s",
+                            action = "Lazy",
+                        },
+                        {
+                            icon = "󰗼  ",
+                            desc = "Quit",
+                            key = "q",
+                            action = ":q",
+                        },
+                    },
+                    footer = {
+                        "Peace cannot be kept by force.",
+                        "It can only be achieved by understanding."
+                    }
+                } -- config
             }
         end,
-        dependencies = { {'nvim-tree/nvim-web-devicons'}},
+        dependencies = { { 'nvim-tree/nvim-web-devicons' } },
     },
 
     -- Markdown Preview
@@ -214,10 +283,10 @@ require("lazy").setup({
     {
         "bullets-vim/bullets.vim",
         config = function()
-            vim.g.bullets_enabled_file_types = {"markdown"}
-            vim.g.bullets_outline_levels = {"num", "ABC", "abc", "std-", "std+", "std*", "chk"}
+            vim.g.bullets_enabled_file_types = { "markdown" }
+            vim.g.bullets_outline_levels = { "num", "ABC", "abc", "std-", "std+", "std*", "chk" }
             vim.g.bullets_custom_mappins = {
-                {'nmap', 'o', '<Plug>(bullets-newline)'}
+                { 'nmap', 'o', '<Plug>(bullets-newline)' }
             }
         end
     },
@@ -257,7 +326,7 @@ require("lazy").setup({
                     hover = {
                         enabled = true,
                         opts = {
-                            border = "rounded", -- 或 "single" / "double" / "solid"
+                            border = "rounded",                          -- 或 "single" / "double" / "solid"
                             max_width = math.floor(vim.o.columns * 0.6), -- 60% 的螢幕寬度
                             max_height = math.floor(vim.o.lines * 0.3),  -- 30% 的螢幕高度
                         },
@@ -287,7 +356,7 @@ require("lazy").setup({
                     },
                 },
                 presets = {
-                    bottom_search = false,
+                    bottom_search = true,
                     command_palette = true,
                     long_message_to_split = true,
                     inc_rename = false,
@@ -296,9 +365,9 @@ require("lazy").setup({
                 messages = {
                     enabled = true,
                     view = "notify",
-                    view_error = "notify",
-                    view_warn = "notify",
-                    view_history = "messages",
+                    view_error = "popup",
+                    view_warn = "mini",
+                    view_history = "split",
                     view_search = "virtualtext",
                 },
                 health = {
@@ -308,13 +377,78 @@ require("lazy").setup({
         end,
     },
 
+    -- rust tool
+    {
+        'mrcjkb/rustaceanvim',
+        version = '^6', -- Recommended
+        lazy = false,   -- This plugin is already lazy
+    },
+
+    -- auto format
+    {
+        "stevearc/conform.nvim",
+        opts = {
+            formatters_by_ft = {
+                rust = { "rustfmt" },
+                lua = { "stylua" },
+                python = { "black" },
+                c = { "clang_format" },
+                cpp = { "clang_format" },
+            },
+            format_on_save = {
+                timeout_ms = 500,
+                lsp_fallback = true,
+            },
+        }
+    },
+
     -- LSP manager
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
     "neovim/nvim-lspconfig",
+    {
+        "folke/trouble.nvim",
+        opts = {}, -- for default options, refer to the configuration section for custom setup.
+        cmd = "Trouble",
+        keys = {
+            {
+                "<leader>xx",
+                "<cmd>Trouble diagnostics toggle<cr>",
+                desc = "Diagnostics (Trouble)",
+            },
+            {
+                "<leader>xX",
+                "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+                desc = "Buffer Diagnostics (Trouble)",
+            },
+            {
+                "<leader>cs",
+                "<cmd>Trouble symbols toggle focus=false<cr>",
+                desc = "Symbols (Trouble)",
+            },
+            {
+                "<leader>cl",
+                "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+                desc = "LSP Definitions / references / ... (Trouble)",
+            },
+            {
+                "<leader>xL",
+                "<cmd>Trouble loclist toggle<cr>",
+                desc = "Location List (Trouble)",
+            },
+            {
+                "<leader>xQ",
+                "<cmd>Trouble qflist toggle<cr>",
+                desc = "Quickfix List (Trouble)",
+            },
+        },
+    },
 
     -- theme
-    { 
+    {
+        "EdenEast/nightfox.nvim"
+    },
+    {
         "catppuccin/nvim", name = "catppuccin", priority = 1000,
     },
     {
@@ -356,9 +490,9 @@ require("lazy").setup({
         dependencies = {
             "lspkind.nvim",
             "hrsh7th/cmp-nvim-lsp", -- lsp auto-completion
-            "hrsh7th/cmp-buffer", -- buffer auto-completion
-            "hrsh7th/cmp-path", -- path auto-completion
-            "hrsh7th/cmp-cmdline", -- cmdline auto-completion
+            "hrsh7th/cmp-buffer",   -- buffer auto-completion
+            "hrsh7th/cmp-path",     -- path auto-completion
+            "hrsh7th/cmp-cmdline",  -- cmdline auto-completion
         },
         config = function()
             require("config.nvim-cmp")
@@ -368,6 +502,21 @@ require("lazy").setup({
     {
         "L3MON4D3/LuaSnip",
         version = "v2.*",
+    },
+
+    -- Game
+    {
+        "seandewar/nvimesweeper",
+    },
+
+    {
+        'jim-fx/sudoku.nvim',
+        cmd = "Sudoku",
+        config = function()
+            require("sudoku").setup({
+                -- configuration ...
+            })
+        end
     },
 })
 
@@ -388,12 +537,24 @@ require("nvim-lastplace").setup({
 })
 
 vim.diagnostic.config({
-  virtual_text = false,
-  signs = true,
-  float = {
-    border = "rounded",
-    source = "always",
-  },
+    virtual_text = false,
+    signs = true,
+    float = {
+        border = "rounded",
+        source = "always",
+    },
 })
 
+require('telescope').setup {
+    extensions = {
+        fzf = {
+            fuzzy = true,                   -- false will only do exact matching
+            override_generic_sorter = true, -- override the generic sorter
+            override_file_sorter = true,    -- override the file sorter
+            case_mode = "smart_case",       -- or "ignore_case" or "respect_case"
+            -- the default case_mode is "smart_case"
+        }
+    }
+}
 
+-- require('telescope').load_extension('fzf')

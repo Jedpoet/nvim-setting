@@ -10,7 +10,7 @@ require('mason').setup({
 
 require('mason-lspconfig').setup({
     -- A list of servers to automatically install if they're not already installed
-    ensure_installed = { 'pylsp', 'lua_ls', 'rust_analyzer', 'ast_grep', 'texlab', 'marksman'},
+    ensure_installed = { 'pylsp', 'lua_ls', 'ast_grep', 'texlab', 'marksman' } -- ,'rust_analyzer',
 })
 
 -- Set different settings for different languages' LSP.
@@ -30,17 +30,17 @@ local lspconfig = require("lspconfig")
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer.
-local on_attach = function(client, bufnr)
-	-- Enable completion triggered by <c-x><c-o>
-	vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+-- local on_attach = function(client, bufnr)
+-- Enable completion triggered by <c-x><c-o>
+-- vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
-	if client.name == "rust_analyzer" then
-		-- WARNING: This feature requires Neovim v0.10+
-		vim.lsp.inlay_hint.enable()
-	end
+-- if client.name == "rust_analyzer" then
+-- 	-- WARNING: This feature requires Neovim v0.10+
+-- 	vim.lsp.inlay_hint.enable()
+-- end
 
-	-- See `:help vim.lsp.*` for documentation on any of the below functions
-    --[[
+-- See `:help vim.lsp.*` for documentation on any of the below functions
+--[[
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
 	vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
 	vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
@@ -73,7 +73,7 @@ local on_attach = function(client, bufnr)
 		})
 	end, bufopts)
     --]]
-end
+-- end
 
 -- How to add an LSP for a specific programming language?
 -- 1. Use `:Mason` to install the corresponding LSP.
@@ -81,54 +81,54 @@ end
 -- Hint (find <name> here) : https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 
 lspconfig.pylsp.setup({
-	on_attach = on_attach,
-	settings = {
-		-- configure plugins in pylsp
-		pylsp = {
-			plugins = {
-				pyflakes = { enabled = false },
-				pylint = { enabled = false },
-				pycodestyle = { enabled = false },
-			},
-		},
-	},
+    on_attach = on_attach,
+    settings = {
+        -- configure plugins in pylsp
+        pylsp = {
+            plugins = {
+                pyflakes = { enabled = false },
+                pylint = { enabled = false },
+                pycodestyle = { enabled = false },
+            },
+        },
+    },
 })
 
 lspconfig.gopls.setup({
-	on_attach = on_attach,
+    on_attach = on_attach,
 })
 
 lspconfig.lua_ls.setup({
-	on_attach = on_attach,
-	settings = {
-		Lua = {
-			runtime = {
-				-- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim).
-				version = "LuaJIT",
-			},
-			diagnostics = {
-				-- Get the language server to recognize the `vim` global.
-				globals = { "vim" },
-			},
-			workspace = {
-				-- Make the server aware of Neovim runtime files.
-				library = vim.api.nvim_get_runtime_file("", true),
-			},
-			-- Do not send telemetry data containing a randomized but unique identifier.
-			telemetry = {
-				enable = false,
-			},
+    on_attach = on_attach,
+    settings = {
+        Lua = {
+            runtime = {
+                -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim).
+                version = "LuaJIT",
+            },
+            diagnostics = {
+                -- Get the language server to recognize the `vim` global.
+                globals = { "vim" },
+            },
+            workspace = {
+                -- Make the server aware of Neovim runtime files.
+                library = vim.api.nvim_get_runtime_file("", true),
+            },
+            -- Do not send telemetry data containing a randomized but unique identifier.
+            telemetry = {
+                enable = false,
+            },
             hint = {
                 true,
             },
-		},
-	},
+        },
+    },
 })
 
-lspconfig.rust_analyzer.setup({
-	-- source: https://rust-analyzer.github.io/manual.html#nvim-lsp
-	on_attach = on_attach,
-})
+-- lspconfig.rust_analyzer.setup({
+-- 	-- source: https://rust-analyzer.github.io/manual.html#nvim-lsp
+-- 	on_attach = on_attach,
+-- })
 
 lspconfig.clangd.setup({
     on_attach = on_attach,
@@ -155,47 +155,47 @@ lspconfig.clangd.setup({
 
 lspconfig.marksman.setup({})
 lspconfig.texlab.setup({
-    filetypes = { "markdown"}
+    filetypes = { "markdown" }
 })
 
-require("lspconfig").rust_analyzer.setup({
-  settings = {
-    ["rust-analyzer"] = {
-      inlayHints = {
-        bindingModeHints = {
-          enable = false,
-        },
-        chainingHints = {
-          enable = true,
-        },
-        closingBraceHints = {
-          enable = true,
-          minLines = 25,
-        },
-        closureReturnTypeHints = {
-          enable = "never",
-        },
-        lifetimeElisionHints = {
-          enable = "never",
-          useParameterNames = false,
-        },
-        maxLength = 25,
-        parameterHints = {
-          enable = true,
-        },
-        reborrowHints = {
-          enable = "never",
-        },
-        renderColons = true,
-        typeHints = {
-          enable = true,
-          hideClosureInitialization = false,
-          hideNamedConstructor = false,
-        },
-      },
-    }
-  }
-})
+-- require("lspconfig").rust_analyzer.setup({
+--   settings = {
+--     ["rust-analyzer"] = {
+--       inlayHints = {
+--         bindingModeHints = {
+--           enable = false,
+--         },
+--         chainingHints = {
+--           enable = true,
+--         },
+--         closingBraceHints = {
+--           enable = true,
+--           minLines = 25,
+--         },
+--         closureReturnTypeHints = {
+--           enable = "never",
+--         },
+--         lifetimeElisionHints = {
+--           enable = "never",
+--           useParameterNames = false,
+--         },
+--         maxLength = 25,
+--         parameterHints = {
+--           enable = true,
+--         },
+--         reborrowHints = {
+--           enable = "never",
+--         },
+--         renderColons = true,
+--         typeHints = {
+--           enable = true,
+--           hideClosureInitialization = false,
+--           hideNamedConstructor = false,
+--         },
+--       },
+--     }
+--   }
+-- })
 
 local cmp = require("cmp")
 
@@ -208,22 +208,22 @@ cmp.setup({
         -- 讓 Enter 只換行，不選擇補全
         ["<CR>"] = cmp.mapping.confirm({
             behavior = cmp.ConfirmBehavior.Insert,
-            select = false,  -- 這行確保 Enter **不會自動選擇補全項目**
+            select = false, -- 這行確保 Enter **不會自動選擇補全項目**
         }),
     },
 })
 
 vim.diagnostic.config({
-    virtual_text = false,  -- 不顯示 inline 的小文字
-    signs = true,          -- 左側的 error/warning 標記
+    virtual_text = false, -- 不顯示 inline 的小文字
+    signs = true,         -- 左側的 error/warning 標記
     underline = true,
     update_in_insert = false,
     severity_sort = true,
     float = {
         focusable = false,
         style = "minimal",
-        border = "rounded",  -- 浮動視窗邊框樣式，可選 single/rounded/solid/shadow
-        source = "always",   -- 顯示診斷來源
+        border = "rounded", -- 浮動視窗邊框樣式，可選 single/rounded/solid/shadow
+        source = "always",  -- 顯示診斷來源
         header = "",
         prefix = "",
     },

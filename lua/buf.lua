@@ -1,8 +1,8 @@
 require("bufferline").setup({
     options = {
-        mode = "buffers", -- 或 "tabs"，決定 bufferline 是基於 buffer 還是 tab
-        numbers = "ordinal", -- "none" | "ordinal" | "buffer_id" | "both"
-        diagnostics = "nvim_lsp", -- 顯示 LSP 診斷資訊
+        mode = "buffers",          -- 或 "tabs"，決定 bufferline 是基於 buffer 還是 tab
+        numbers = "ordinal",       -- "none" | "ordinal" | "buffer_id" | "both"
+        diagnostics = "nvim_lsp",  -- 顯示 LSP 診斷資訊
         separator_style = "slant", -- "slant" | "thick" | "thin" | { "left", "right" }
         offsets = {
             {
@@ -13,10 +13,10 @@ require("bufferline").setup({
                 separator = true
             }
         },
-        show_buffer_icons = true, -- 是否顯示 buffer 的 icon
+        show_buffer_icons = true,       -- 是否顯示 buffer 的 icon
         show_buffer_close_icons = true, -- 是否顯示 buffer 的關閉按鈕
-        show_close_icon = true, -- 是否顯示最右邊的關閉按鈕
-        enforce_regular_tabs = false, -- 是否讓所有 tabs 一樣寬度
+        show_close_icon = true,         -- 是否顯示最右邊的關閉按鈕
+        enforce_regular_tabs = false,   -- 是否讓所有 tabs 一樣寬度
         always_show_bufferline = false, -- 是否在只有一個 buffer 時仍然顯示
     },
     highlights = {
@@ -39,6 +39,3 @@ require("bufferline").setup({
         },
     },
 })
-
-
-
