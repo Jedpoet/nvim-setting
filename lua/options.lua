@@ -22,11 +22,29 @@ vim.opt.splitright = true -- open new horizontal splits right
 -- vim.opt.termguicolors = true        -- enabl 24-bit RGB color in the TUI
 vim.opt.showmode = false  -- we are experienced, wo don't need the "-- INSERT --" mode hint
 
+-- fold
+vim.o.foldcolumn = '1' -- '0' is not bad
+vim.o.foldlevel = 99   -- Using ufo provider need a large value, feel free to decrease the value
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true
+
+-- Using ufo provider need remap `zR` and `zM`. If Neovim is 0.6.1, remap yourself
+-- vim.keymap.set('n', 'zo', require('ufo').openAllFolds)
+-- vim.keymap.set('n', 'zc', require('ufo').closeAllFolds)
+
+
+
+
 -- Searching
 vim.opt.incsearch = true  -- search as characters are entered
 vim.opt.hlsearch = false  -- do not highlight matches
 vim.opt.ignorecase = true -- ignore case in searches by default
 vim.opt.smartcase = true  -- but make it case sensitive if an uppercase is entered
+
+-- 把 ctags 所在目录加到 PATH
+-- vim.g.tagbar_ctags_bin = "cmd.exe /C ctags"
+-- vim.g.tagbar_ctags_bin = 'C:/Program Files (x86)/ctags/ctags.exe'
+-- vim.g.tagbar_ctags_type = 'universal'
 
 -- 改 Neovim 的 updatetime（單位：毫秒）
 vim.o.updatetime = 500 -- 這裡決定游標停在原地多久後觸發 CursorHold
@@ -39,9 +57,9 @@ vim.api.nvim_create_autocmd("CursorHold", {
 })
 
 
-if vim.fn.has("win32") == 1 then
-    vim.o.shell = "pwsh"
-end
+-- if vim.fn.has("win32") == 1 then
+--     vim.o.shell = "pwsh"
+-- end
 
 -- Neovide setting
 if vim.g.neovide then

@@ -1,10 +1,10 @@
 require('options')
-require('keymaps')
 require('plugins')
+require('keymaps')
 require('colorscheme')
 require('lsp')
 require('line')
 require('markdown')
-require('start')
 require('buf')
-
+require('floating_terminal')
+-- require('ufo-setup')

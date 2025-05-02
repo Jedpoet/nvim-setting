@@ -19,7 +19,7 @@ require("lazy").setup({
             local configs = require("nvim-treesitter.configs")
 
             configs.setup({
-                ensure_installed = { "c", "lua", "vim" },
+                ensure_installed = { "c", "cpp", "rust", "python", "lua", "vim" },
                 sync_install = false,
                 auto_install = false,
                 highlight = { enable = true, },
@@ -27,7 +27,6 @@ require("lazy").setup({
             })
         end
     },
-    --[[
     {
         'windwp/nvim-autopairs',
         event = "InsertEnter",
@@ -35,10 +34,51 @@ require("lazy").setup({
         -- use opts = {} for passing setup options
         -- this is equivalent to setup({}) function
     },
-    ]] --
+
+    {
+        'abecodes/tabout.nvim',
+        lazy = false,
+        config = function()
+            require('tabout').setup {
+                tabkey = '<Tab>',             -- key to trigger tabout, set to an empty string to disable
+                backwards_tabkey = '<S-Tab>', -- key to trigger backwards tabout, set to an empty string to disable
+                act_as_tab = false,           -- shift content if tab out is not possible
+                act_as_shift_tab = false,     -- reverse shift content if tab out is not possible (if your keyboard/terminal supports <S-Tab>)
+                default_tab = '<C-t>',        -- shift default action (only at the beginning of a line, otherwise <TAB> is used)
+                default_shift_tab = '<C-d>',  -- reverse shift default action,
+                enable_backwards = true,      -- well ...
+                completion = false,           -- if the tabkey is used in a completion pum
+                tabouts = {
+                    { open = "'", close = "'" },
+                    { open = '"', close = '"' },
+                    { open = '`', close = '`' },
+                    { open = '<', close = '>' },
+                    { open = '(', close = ')' },
+                    { open = '[', close = ']' },
+                    { open = '{', close = '}' }
+                },
+                ignore_beginning = true, --[[ if the cursor is at the beginning of a filled element it will rather tab out than shift the content ]]
+                exclude = {} -- tabout will ignore these filetypes
+            }
+        end,
+        dependencies = { -- These are optional
+            "nvim-treesitter/nvim-treesitter",
+            "L3MON4D3/LuaSnip",
+            "hrsh7th/nvim-cmp"
+        },
+        opt = true,              -- Set this to true if the plugin is optional
+        event = 'InsertCharPre', -- Set the event to 'InsertCharPre' for better compatibility
+        priority = 1000,
+    },
 
     {
         "RRethy/vim-illuminate",
+        config = function()
+            require('illuminate').configure({
+                under_cursor = true,
+            })
+        end,
+
     },
 
     {
@@ -74,6 +114,13 @@ require("lazy").setup({
         },
     },
     {
+        'smoka7/hop.nvim',
+        version = "*",
+        opts = {
+            keys = 'etovxqpdygfblzhckisuran'
+        }
+    },
+    {
         "lukas-reineke/indent-blankline.nvim",
         main = "ibl",
         ---@module "ibl"
@@ -94,6 +141,14 @@ require("lazy").setup({
 
     {
         'preservim/tagbar',
+    },
+
+    {
+        'mg979/vim-visual-multi',
+    },
+
+    {
+        'gcmt/wildfire.vim',
     },
 
     {
@@ -193,8 +248,57 @@ require("lazy").setup({
     -- },
 
     {
-        "romgrk/nvim-treesitter-context",
-        lazy = true,
+        "nvim-treesitter/nvim-treesitter-context",
+        config = function()
+            local ts_context = require("treesitter-context")
+
+            ts_context.setup({
+                enable = true,
+                max_lines = 5,
+                trim_scope = 'outer',
+                mode = 'cursor',
+                -- separator = "─",
+                zindex = 20,
+                on_attach = function(bufnr)
+                    local api = vim.api
+                    local ts_utils = require("nvim-treesitter.ts_utils")
+                    local context = require("treesitter-context")
+
+                    -- 改寫 get_text
+                    local orig_get_text = context.get_text
+                    context.get_text = function(node, ...)
+                        -- 抓到 function/class/interface/struct 的宣告節點
+                        if node then
+                            -- 只取節點的第一行（也就是宣告那一行）
+                            local start_row, start_col, end_row, end_col = node:range()
+                            local lines = vim.api.nvim_buf_get_text(0, start_row, start_col, start_row, -1, {})
+                            -- 過濾掉只有 { 的行
+                            local filtered = {}
+                            for _, line in ipairs(lines) do
+                                if vim.trim(line) ~= "{" then
+                                    table.insert(filtered, line)
+                                end
+                            end
+                            return filtered
+                        else
+                            -- fallback
+                            return orig_get_text(node, ...)
+                        end
+                    end
+                end,
+            })
+
+            -- 漂亮的淡入動畫
+            -- vim.api.nvim_create_autocmd("User", {
+            --     pattern = "TreesitterContext",
+            --     callback = function()
+            --         local win = vim.api.nvim_get_current_win()
+            --         if vim.api.nvim_win_is_valid(win) then
+            --             vim.api.nvim_win_set_option(win, "winblend", 20)
+            --         end
+            --     end
+            -- })
+        end,
     },
 
     {
@@ -402,6 +506,69 @@ require("lazy").setup({
         }
     },
 
+    {
+        'mvllow/modes.nvim',
+        version = 'v0.2.1',
+        config = function()
+            require('modes').setup({
+                colors = {
+                    bg = "", -- Optional bg param, defaults to Normal hl group
+                    copy = "#f5c359",
+                    delete = "#c75c6a",
+                    insert = "#434c5e",
+                    visual = "#ee0000",
+                },
+
+                -- Set opacity for cursorline and number background
+                line_opacity = 0.15,
+
+                -- Enable cursor highlights
+                set_cursor = true,
+
+                -- Enable cursorline initially, and disable cursorline for inactive windows
+                -- or ignored filetypes
+                set_cursorline = true,
+
+                -- Enable line number highlights to match cursorline
+                set_number = true,
+
+                -- Enable sign column highlights to match cursorline
+                set_signcolumn = true,
+
+                -- Disable modes highlights in specified filetypes
+                -- Please PR commonly ignored filetypes
+                ignore_filetypes = { 'NvimTree', 'TelescopePrompt' }
+            })
+        end
+    },
+
+    {
+        "SmiteshP/nvim-navic",
+        requires = "neovim/nvim-lspconfig",
+    },
+
+    {
+        'nvimdev/lspsaga.nvim',
+        config = function()
+            require('lspsaga').setup({
+                lightbulb = {
+                    enable = false,
+                    sign = false,
+                    virtual_text = false,
+                },
+            })
+        end,
+        dependencies = {
+            'nvim-treesitter/nvim-treesitter', -- optional
+            'nvim-tree/nvim-web-devicons',     -- optional
+        },
+    },
+
+    -- {
+    --     'kevinhwang91/nvim-ufo',
+    --     requires = 'kevinhwang91/promise-async'
+    -- },
+
     -- LSP manager
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
@@ -518,6 +685,16 @@ require("lazy").setup({
             })
         end
     },
+
+    {
+        'tamton-aquib/duck.nvim',
+        config = function()
+            vim.keymap.set('n', '<leader>dd', function() require("duck").hatch("ඞ") end, {})
+            vim.keymap.set('n', '<leader>dk', function() require("duck").cook("ඞ") end, {})
+            vim.keymap.set('n', '<leader>da', function() require("duck").cook_all("ඞ") end, {})
+        end
+    },
+
 })
 
 
@@ -557,4 +734,12 @@ require('telescope').setup {
     }
 }
 
--- require('telescope').load_extension('fzf')
+-- require('telescope').load_extension('fzf')-
+
+local navic = require("nvim-navic")
+
+require("lspconfig").clangd.setup {
+    on_attach = function(client, bufnr)
+        navic.attach(client, bufnr)
+    end
+}
