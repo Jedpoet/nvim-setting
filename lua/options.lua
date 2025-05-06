@@ -32,9 +32,6 @@ vim.o.foldenable = true
 -- vim.keymap.set('n', 'zo', require('ufo').openAllFolds)
 -- vim.keymap.set('n', 'zc', require('ufo').closeAllFolds)
 
-
-
-
 -- Searching
 vim.opt.incsearch = true  -- search as characters are entered
 vim.opt.hlsearch = false  -- do not highlight matches
